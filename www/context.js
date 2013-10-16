@@ -1,5 +1,3 @@
-var exec = require("cordova/exec");
-
 function onReceivedItem(itemJson, type){
     var $elements = $(".ui-li-count");
     $.each($elements, function(){

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <plugin xmlns="http://www.phonegap.com/ns/plugins/1.0"
-           id="org.apache.cordova.intel"
+           id="org.cordova.intel"
       version="0.1.0">
     <name>Intel Context Cloud Services</name>
     <description>Intel - Cloud Services</description>
@@ -12,8 +12,8 @@
         <clobbers target="window.intel" />
     </js-module>
 
-    <js-module src="www/context.js" name="ContextSDK">
-        <clobbers target="contextsdk" />
+    <js-module src="www/context.js" name="Context">
+        <clobbers target="window.context" />
     </js-module>
 
     <!-- android -->
@@ -27,8 +27,8 @@
             </feature>
         </config-file>
 
-        <source-file src="src/android/ContextSDKPlugin.java" target-dir="src/org/apache/cordova/plugins" />
-        <source-file src="src/android/IntelSDKPlugin.java" target-dir="src/org/apache/cordova/plugins" />
+        <source-file src="src/android/ContextSDKPlugin.java" target-dir"src/org/plugins" />
+        <source-file src="src/android/IntelSDKPlugin.java" target-dir="src/org/plugins" />
      </platform>
           
 </plugin>

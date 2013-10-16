@@ -1,5 +1,3 @@
-var exec = require("cordova/exec");
-
 var clientId;
 var secretId;
 var scopes;
@@ -45,3 +43,4 @@ var intel = {
         }
     }
 }
+module.exports = intel;
