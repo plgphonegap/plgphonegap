@@ -34,18 +34,16 @@
 
     <!-- ios -->
     <platform name="ios">
+
         <config-file target="config.xml" parent="/*">
             <feature name="Intel">
-                <param name="ios-package" value="org.intel.phonegap.IntelSDKPlugin"/>
-            </feature>
-            <feature name="Context">
-                <param name="ios-package" value="org.intel.phonegap.ContextSDKPlugin"/>
+                <param name="ios-package" value="IntelSDKPlugin" />
             </feature>
         </config-file>
-
+         
+        <!--Copy the native files:-->
         <header-file src="src/ios/IntelSDKPlugin.h" />
         <source-file src="src/ios/IntelSDKPlugin.m" />
-        <header-file src="src/ios/ContextSDKPlugin.h" />
-        <source-file src="src/ios/ContextSDKPlugin.m" />
+
     </platform>
 </plugin>
