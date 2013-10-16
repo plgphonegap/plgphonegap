@@ -27,8 +27,8 @@
             </feature>
         </config-file>
 
-        <source-file src="src/android/ContextSDKPlugin.java" target-dir"src/org/plugins" />
-        <source-file src="src/android/IntelSDKPlugin.java" target-dir="src/org/plugins" />
+        <source-file src="src/android/ContextSDKPlugin.java" target-dir"src/org/apache/cordova/plugins" />
+        <source-file src="src/android/IntelSDKPlugin.java" target-dir="src/org/apache/cordova/plugins" />
      </platform>
           
 </plugin>
