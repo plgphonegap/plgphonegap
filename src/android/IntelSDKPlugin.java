@@ -1,4 +1,4 @@
-package org.apache.cordova.plugins;
+package org.intel.phonegap;
 
 import org.apache.cordova.PluginResult;
 import org.json.JSONArray;
