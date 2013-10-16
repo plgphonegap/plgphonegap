@@ -1,5 +1,6 @@
 package org.intel.phonegap;
 
+import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.PluginResult;
 import org.apache.cordova.PluginResult.Status;
@@ -9,12 +10,9 @@ import org.json.JSONObject;
 
 import android.os.Bundle;
 import android.util.Log;
-import android.webkit.WebSettings.PluginState;
-import android.widget.Toast;
 
 import com.intel.context.*;
 import com.intel.context.error.ContextError;
-import com.intel.context.error.ContextProviderException;
 import com.intel.context.item.Item;
 
 public class ContextSDKPlugin extends CordovaPlugin {
@@ -25,16 +23,21 @@ public class ContextSDKPlugin extends CordovaPlugin {
 	private static boolean isInit = false;
 	private JSONArray servicesList;
 		
-	public PluginResult execute(String action, JSONArray args, String callbackId) {
+	public boolean execute(String action, JSONArray data, CallbackContext callbackContext) {
+		
+		PluginResult pluginResult = null;
+		
 		if(action.equals(GET_SERVICES_LIST)){
-			return getServicesList();
+			pluginResult = getServicesList();
 		}else if(action.equals(INIT_SERVICES)){
-			return initWithServicesList(args);
+			pluginResult = initWithServicesList(data);
 		}else if(action.equals(STOP_SERVICES)){
-			return stopServices();
+			pluginResult = stopServices();
 		}else{
-			return new PluginResult(Status.OK);
+			pluginResult = new PluginResult(Status.ERROR);
 		}
+		
+		return ((pluginResult.getStatus() == Status.OK.ordinal()) ? true : false);
 	}
 	
 	/**
@@ -157,7 +160,7 @@ public class ContextSDKPlugin extends CordovaPlugin {
 			isInit = true;
 		} else {
 			Log.d("Debug", "The context sensing has been already enabled..");
-			webView.sendJavascript("onError('The context sensing has been already enabled');");
+			webView.sendJavascript("context.onError('The context sensing has been already enabled');");
 			return new PluginResult(Status.ERROR, "The context sensing has been already enabled");
 		}
 
@@ -185,13 +188,13 @@ public class ContextSDKPlugin extends CordovaPlugin {
 		@Override
 		public void onError(ContextError arg0) {
 			Log.d("Error", "Error receiving item");
-			webView.sendJavascript("onError('" + arg0.getMessage() + "');");
+			webView.sendJavascript("context.onError('" + arg0.getMessage() + "');");
 		}
 
 		@Override
 		public void onReceive(Item arg0) {
 			Log.d("Update item", "Has been received an item of type " + arg0.getStateType().toString());
-			webView.sendJavascript("onReceivedItem('','" + arg0.getStateType().toString() + "');");
+			webView.sendJavascript("context.onReceivedItem('','" + arg0.getStateType().toString() + "');");
 		}
 		
 	}
@@ -246,17 +249,17 @@ public class ContextSDKPlugin extends CordovaPlugin {
 						com.intel.context.Context.addListener(Type.MESSAGE, new ListenerStatesCallback());
 					}else if(urn.equals(Type.DEVICE_INFORMATION.toString())){
 						com.intel.context.Context.enableSensing(Type.DEVICE_INFORMATION, bundle);
-						webView.sendJavascript("onReceivedItem('','" + Type.DEVICE_INFORMATION.toString() + "');"); //Increment the counter 'cause this action will be executed once time
+						webView.sendJavascript("context.onReceivedItem('','" + Type.DEVICE_INFORMATION.toString() + "');"); //Increment the counter 'cause this action will be executed once time
 					}
 				}
 			} catch (Exception ex){
-				webView.sendJavascript("onError('Exception: " + ex.getMessage() + "');");
+				webView.sendJavascript("context.onError('Exception: " + ex.getMessage() + "');");
 			}
 		}
 
 		@Override
 		public void onError(ContextError error) {
-			webView.sendJavascript("onError('" + error.getMessage() + "');");
+			webView.sendJavascript("context.onError('" + error.getMessage() + "');");
 		}
 	}
 }

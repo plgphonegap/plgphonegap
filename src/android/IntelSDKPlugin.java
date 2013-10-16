@@ -1,6 +1,8 @@
 package org.intel.phonegap;
 
+import org.apache.cordova.CallbackContext;
 import org.apache.cordova.PluginResult;
+import org.apache.cordova.PluginResult.Status;
 import org.json.JSONArray;
 import org.json.JSONException;
 
@@ -15,41 +17,33 @@ import com.intel.core.auth.Auth.Action;
 
 public class IntelSDKPlugin extends org.apache.cordova.CordovaPlugin {
 
-	private boolean properlyInitialized = false;
-
 	private String clientId, secretId, scopes;
 
 	private static final String LOGIN_ACTION = "login";
 	private static final String INITIALIZE_ACTION = "init";
 
-	public PluginResult execute(String action, JSONArray args, String callbackId) {
+	public boolean execute(String action, JSONArray data, CallbackContext callbackContext) {
 
-		PluginResult.Status status = null;
+		PluginResult status = null;
 
 		if (action.equals(INITIALIZE_ACTION)) { // Init login
 			try {
-				clientId = args.getString(0);
-				secretId = args.getString(1);
-				scopes = args.getString(2);
+				clientId = data.getString(0);
+				secretId = data.getString(1);
+				scopes = data.getString(2);
 
-				status = PluginResult.Status.OK;
+				status = new PluginResult(Status.OK);
 			} catch (JSONException e) {
-				status = PluginResult.Status.ERROR;
+				status = new PluginResult(Status.ERROR);
 			}
 		} else if (action.equals(LOGIN_ACTION) && clientId != null
 				&& secretId != null) {
 			// Login
 			login();
-
-			try {
-				Thread.sleep(100000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 		}
 
-		return new PluginResult(status);
+		callbackContext.sendPluginResult(status);
+		return ((status.getStatus() == Status.OK.ordinal()) ? true : false);
 	}
 
 	public void login() {
@@ -85,7 +79,6 @@ public class IntelSDKPlugin extends org.apache.cordova.CordovaPlugin {
 									cordova.getActivity()
 											.getApplicationContext(),
 									"Login Success", Toast.LENGTH_SHORT).show();
-							properlyInitialized = true;
 						}
 					});
 

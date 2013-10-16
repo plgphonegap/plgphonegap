@@ -1,19 +1,18 @@
-function onReceivedItem(itemJson, type){
-    var $elements = $(".ui-li-count");
-    $.each($elements, function(){
-        var idElement = $(this).attr("id");
-        var counter = parseInt($(this).text()) + 1;
-        if(idElement == type){
-            $(this).text(counter);
-        }
-    });
-}
-
-function onError(message){
-    navigator.notification.alert(message, null, "Error", "OK");
-}
-
 var context = {
+    onReceivedItem : function(itemJson, type){
+        alert(type);
+        var $elements = $(".ui-li-count");
+        $.each($elements, function(){
+            var idElement = $(this).attr("id");
+            var counter = parseInt($(this).text()) + 1;
+            if(idElement == type){
+                $(this).text(counter);
+        }
+        });
+    },
+    onError : function(message){
+        alert(message);
+    },
     // Application Constructor
     getServices: function(){
         cordova.exec(function(a) {
