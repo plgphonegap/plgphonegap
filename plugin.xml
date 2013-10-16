@@ -30,5 +30,23 @@
 
         <source-file src="src/android/IntelSDKPlugin.java" target-dir="src/org/intel/phonegap" />
         <source-file src="src/android/ContextSDKPlugin.java" target-dir="src/org/intel/phonegap" />
-     </platform>          
+     </platform>
+
+     <!-- ios -->
+    <!-- ios -->
+    <platform name="ios">
+        <config-file target="config.xml" parent="/*">
+            <feature name="Intel">
+                <param name="ios-package" value="org.intel.phonegap.IntelSDKPlugin"/>
+            </feature>
+            <feature name="Context">
+                <param name="ios-package" value="org.intel.phonegap.ContextSDKPlugin"/>
+            </feature>
+        </config-file>
+
+        <header-file src="src/ios/IntelSDKPlugin.h" />
+        <source-file src="src/ios/IntelSDKPlugin.m" />
+        <header-file src="src/ios/ContextSDKPlugin.h" />
+        <source-file src="src/ios/ContextSDKPlugin.m" />
+    </platform>
 </plugin>
