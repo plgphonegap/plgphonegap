@@ -32,7 +32,6 @@
         <source-file src="src/android/ContextSDKPlugin.java" target-dir="src/org/intel/phonegap" />
      </platform>
 
-     <!-- ios -->
     <!-- ios -->
     <platform name="ios">
         <config-file target="config.xml" parent="/*">
