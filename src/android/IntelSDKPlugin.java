@@ -1,12 +1,9 @@
 package org.apache.cordova.plugins;
 
-import org.apache.cordova.api.CordovaPlugin;
-import org.apache.cordova.api.Plugin;
-import org.apache.cordova.api.PluginResult;
+import org.apache.cordova.PluginResult;
 import org.json.JSONArray;
 import org.json.JSONException;
 
-import android.util.Log;
 import android.widget.Toast;
 
 import com.intel.api.Intel;
@@ -16,7 +13,7 @@ import com.intel.common.Settings.Environment;
 import com.intel.core.Callback;
 import com.intel.core.auth.Auth.Action;
 
-public class IntelSDKPlugin extends Plugin {
+public class IntelSDKPlugin extends org.apache.cordova.CordovaPlugin {
 
 	private boolean properlyInitialized = false;
 

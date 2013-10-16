@@ -1,8 +1,8 @@
 package org.apache.cordova.plugins;
 
-import org.apache.cordova.api.Plugin;
-import org.apache.cordova.api.PluginResult;
-import org.apache.cordova.api.PluginResult.Status;
+import org.apache.cordova.CordovaPlugin;
+import org.apache.cordova.PluginResult;
+import org.apache.cordova.PluginResult.Status;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -17,7 +17,7 @@ import com.intel.context.error.ContextError;
 import com.intel.context.error.ContextProviderException;
 import com.intel.context.item.Item;
 
-public class ContextSDKPlugin extends Plugin {
+public class ContextSDKPlugin extends CordovaPlugin {
 	
 	private static final String GET_SERVICES_LIST = "getServicesList";
 	private static final String INIT_SERVICES = "initWithServicesList";
@@ -157,7 +157,7 @@ public class ContextSDKPlugin extends Plugin {
 			isInit = true;
 		} else {
 			Log.d("Debug", "The context sensing has been already enabled..");
-			sendJavascript("onError('The context sensing has been already enabled');");
+			webView.sendJavascript("onError('The context sensing has been already enabled');");
 			return new PluginResult(Status.ERROR, "The context sensing has been already enabled");
 		}
 
@@ -185,13 +185,13 @@ public class ContextSDKPlugin extends Plugin {
 		@Override
 		public void onError(ContextError arg0) {
 			Log.d("Error", "Error receiving item");
-			sendJavascript("onError('" + arg0.getMessage() + "');");
+			webView.sendJavascript("onError('" + arg0.getMessage() + "');");
 		}
 
 		@Override
 		public void onReceive(Item arg0) {
 			Log.d("Update item", "Has been received an item of type " + arg0.getStateType().toString());
-			sendJavascript("onReceivedItem('','" + arg0.getStateType().toString() + "');");
+			webView.sendJavascript("onReceivedItem('','" + arg0.getStateType().toString() + "');");
 		}
 		
 	}
@@ -246,17 +246,17 @@ public class ContextSDKPlugin extends Plugin {
 						com.intel.context.Context.addListener(Type.MESSAGE, new ListenerStatesCallback());
 					}else if(urn.equals(Type.DEVICE_INFORMATION.toString())){
 						com.intel.context.Context.enableSensing(Type.DEVICE_INFORMATION, bundle);
-						sendJavascript("onReceivedItem('','" + Type.DEVICE_INFORMATION.toString() + "');"); //Increment the counter 'cause this action will be executed once time
+						webView.sendJavascript("onReceivedItem('','" + Type.DEVICE_INFORMATION.toString() + "');"); //Increment the counter 'cause this action will be executed once time
 					}
 				}
 			} catch (Exception ex){
-				sendJavascript("onError('Exception: " + ex.getMessage() + "');");
+				webView.sendJavascript("onError('Exception: " + ex.getMessage() + "');");
 			}
 		}
 
 		@Override
 		public void onError(ContextError error) {
-			sendJavascript("onError('" + error.getMessage() + "');");
+			webView.sendJavascript("onError('" + error.getMessage() + "');");
 		}
 	}
 }

@@ -1,5 +1,4 @@
 var exec = require("cordova/exec");
-var SpeechSynthesisVoiceList = require("org.apache.cordova.speech.speechsynthesis.SpeechSynthesisVoiceList");
 
 function onReceivedItem(itemJson, type){
     var $elements = $(".ui-li-count");
