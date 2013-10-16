@@ -29,6 +29,7 @@ public class ContextSDKPlugin extends CordovaPlugin {
 		
 		if(action.equals(GET_SERVICES_LIST)){
 			pluginResult = getServicesList();
+			callbackContext.sendPluginResult(pluginResult);
 		}else if(action.equals(INIT_SERVICES)){
 			pluginResult = initWithServicesList(data);
 		}else if(action.equals(STOP_SERVICES)){
