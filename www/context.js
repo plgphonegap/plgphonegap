@@ -47,5 +47,3 @@ var context = {
     }
 }
 module.exports = context;
-module.exports = onError;
-module.exports = onReceivedItem;
