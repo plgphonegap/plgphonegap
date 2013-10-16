@@ -8,13 +8,12 @@
     <license>Intel</license>
     <keywords>cordova,intel,cloud,platform</keywords>
 
+    <js-module src="www/intel.js" name="Intel">
+        <clobbers target="window.intel" />
+    </js-module>
 
     <js-module src="www/context.js" name="ContextSDK">
         <clobbers target="contextsdk" />
-    </js-module>
-
-    <js-module src="www/intel.js" name="IntelSDK">
-        <clobbers target="intelsdk" />
     </js-module>
 
     <!-- android -->
