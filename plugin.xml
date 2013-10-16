@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<plugin xmlns="http://www.phonegap.com/ns/plugins/1.0"
+           id="org.apache.cordova.speech.speechsynthesis"
+      version="0.1.0">
+    <name>Intel Context Cloud Services</name>
+    <description>Intel - Cloud Services</description>
+    <license>Intel</license>
+    <keywords>cordova,intel,cloud,platform</keywords>
+
+
+    <js-module src="www/context.js" name="ContextSDK">
+        <clobbers target="contextsdk" />
+    </js-module>
+
+    <js-module src="www/intel.js" name="IntelSDK">
+        <clobbers target="intelsdk" />
+    </js-module>
+
+    <!-- android -->
+    <platform name="android">
+        <config-file target="res/xml/config.xml" parent="/*">
+            <feature name="Intel">
+                <param name="android-package" value="org.apache.cordova.plugins.IntelSDKPlugin"/>
+            </feature>
+            <feature name="Context">
+                <param name="android-package" value="org.apache.cordova.plugins.ContextSDKPlugin"/>
+            </feature>
+        </config-file>
+
+        <source-file src="src/android/ContextSDKPlugin.java" target-dir="src/org/apache/cordova/plugins" />
+        <source-file src="src/android/IntelSDKPlugin.java" target-dir="src/org/apache/cordova/plugins" />
+     </platform>
+          
+</plugin>
