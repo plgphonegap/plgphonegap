@@ -1,46 +1,64 @@
+var onReceivedItemCallback = null;
+var onErrorCallback = null;
+
 var context = {
-    onReceivedItem : function(itemJson, type){
-        alert(type);
-        var $elements = $(".ui-li-count");
-        $.each($elements, function(){
-            var idElement = $(this).attr("id");
-            var counter = parseInt($(this).text()) + 1;
-            if(idElement == type){
-                $(this).text(counter);
+    // Application Constructor
+    initCallbacks : function(onReceivedItem, onError){
+        onReceivedItemCallback = onReceivedItem;
+        onErrorCallback = onError;
+    },
+    service : {
+        name : "",
+        urn : "",
+        init : function(name, urn, situationType){
+            this.name = name;
+            this.urn = urn;
+            this.situationType = situationType;
+            return this;
         }
-        });
+    },
+    onReceivedItem : function(itemJson, type){
+        if(onReceivedItemCallback != null){
+            onReceivedItemCallback(type);
+        } else {
+            alert("Received item type [" + type + "]");
+        }
     },
     onError : function(message){
-        alert(message);
+        if(onErrorCallback != null){
+            onErrorCallback(message);
+        } else {
+            alert("Error in context: " + message);
+        }
     },
-    // Application Constructor
-    getServices: function(){
+    getServices: function(callback, errorCallback){
         cordova.exec(function(a) {
             var length = a.length;
+            var SERVICES = new Array();
             for(var m=0; m < length; m++){
-                var SERVICE = new service.init(a[m]["name"], a[m]["urn"], a[m]["situationType"]);
+                var SERVICE = new context.service.init(a[m]["name"], a[m]["urn"], a[m]["situationType"]);
                 SERVICES.push(SERVICE);
             }
+            callback(SERVICES);
         }, function(e) {
-            alert("Error!");
+            errorCallback(e);
         }, "Context", "getServicesList", []
         );
     },
-    init: function() {
-        var servicesList = window.localStorage.getEnabledServices();
+    init: function(services, callback, errorCallback) {
+        var servicesList = services;
         cordova.exec(function(a) {
-            //alert("Successful!");
-            }, function(e) {
-            //alert("Error!");
-            }, "Context", "initWithServicesList", [servicesList]
-            );
+            callback(a);
+        }, function(e) {
+            errorCallback(e);
+        }, "Context", "initWithServicesList", [servicesList]
+        );
     },
-    stop: function() {
-        var servicesList = window.localStorage.getEnabledServices();
-        cordova.exec(function() {
-            alert("Stopped services sucessful!");
-        }, function() {
-            alert("Error stopping services. Try again");
+    stop: function(callback, errorCallback) {
+        cordova.exec(function(a) {
+            callback(a)
+        }, function(e) {
+            errorCallback(e);
         }, "Context", "stopServices", []
         );
     }
